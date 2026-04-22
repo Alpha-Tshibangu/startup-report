@@ -260,7 +260,7 @@ export function CardStackScroller({
               ref={(el) => {
                 cardRefs.current[idx] = el;
               }}
-              className="scroll-mt-24 snap-center mx-auto w-full max-w-[520px]"
+              className="scroll-mt-24 snap-center mx-auto w-full max-w-[520px] lg:max-w-[600px] xl:max-w-[660px]"
               animate={{
                 opacity: m.opacity,
                 scale: m.scale,
