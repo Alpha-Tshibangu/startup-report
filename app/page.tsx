@@ -449,7 +449,7 @@ export default function Page() {
                   <h1 className="mt-0 font-(--font-display) text-6xl italic leading-[0.90] tracking-[-0.03em] text-zinc-50">
                     <span className="block font-semibold">{report.title}</span>
                   </h1>
-                  <div className="mt-16 max-w-xl text-sm text-zinc-200/80">
+                  <div className="mt-28 max-w-xl text-sm text-zinc-200/80">
                     {report.subtitle}
                   </div>
                   <div className="mt-4 max-w-lg text-base leading-7 text-white">
