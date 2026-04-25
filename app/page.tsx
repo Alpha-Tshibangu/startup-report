@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import { ResponsiveCards } from "./_components/ResponsiveCards";
-import { MiniChart } from "./_components/MiniChart";
+import Image from "next/image";
+import { ContactFormModal } from "./_components/ContactFormModal";
+import { MobileMenu } from "./_components/MobileMenu";
+import { ReportRequestModal } from "./_components/ReportRequestModal";
 
 export const metadata: Metadata = {
   title: "Startup Playbooks Report — Australia | Curiosity Centre",
@@ -117,279 +119,25 @@ const report = {
   ],
 };
 
-function Stat({
-  label,
-  value,
-  size = "md",
-}: {
-  label: string;
-  value: string;
-  size?: "md" | "xl";
-}) {
-  const isXL = size === "xl";
-  return (
-    <div
-      className={[
-        "w-full rounded-3xl border border-black/10 bg-white/80 backdrop-blur",
-        isXL
-          ? // match the reference image footprint (1821×1031 ≈ 1.766)
-            "aspect-1821/1031 p-7 sm:p-10 flex flex-col justify-between"
-          : "p-4",
-      ].join(" ")}
-    >
-      <div>
-        <div
-          className={[
-            "uppercase tracking-[0.18em] text-zinc-600",
-            isXL ? "text-[11px]" : "text-xs",
-          ].join(" ")}
-        >
-          {label}
-        </div>
-        <div
-          className={[
-            "mt-3 font-(--font-display) italic tracking-[-0.02em] text-zinc-950",
-            isXL ? "text-5xl leading-[0.92] sm:text-6xl" : "text-2xl",
-          ].join(" ")}
-        >
-          {value}
-        </div>
-      </div>
-
-      {isXL ? (
-        <div className="text-base leading-7 text-zinc-600">
-          Qualitative + quantitative benchmark (preview).
-        </div>
-      ) : null}
-    </div>
-  );
-}
-
-function Card({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <div
-      className={[
-        "rounded-3xl border border-black/10 bg-white/85 backdrop-blur",
-        "shadow-[0_18px_55px_-40px_rgba(0,0,0,0.35)]",
-        className ?? "",
-      ].join(" ")}
-    >
-      {children}
-    </div>
-  );
-}
-
-function CenterMetricCard({ value, label }: { value: string; label: string }) {
-  return (
-    <Card className="p-8 sm:p-10">
-      <div className="flex min-h-[280px] flex-col items-center justify-center text-center">
-        <div className="font-(--font-display) text-6xl leading-[0.92] tracking-[-0.04em] text-zinc-950 sm:text-7xl">
-          {value}
-        </div>
-        <div className="mt-4 text-xs font-medium uppercase tracking-[0.22em] text-zinc-600">
-          {label}
-        </div>
-      </div>
-    </Card>
-  );
-}
-
-function CenterHeadingCard({
-  heading,
-  subtext,
-}: {
-  heading: string;
-  subtext?: string;
-}) {
-  return (
-    <Card className="p-8 sm:p-10">
-      <div className="flex min-h-[280px] flex-col items-center justify-center text-center">
-        <div className="font-(--font-display) text-4xl leading-[0.98] tracking-[-0.03em] text-zinc-950 sm:text-5xl">
-          {heading}
-        </div>
-        {subtext ? (
-          <div className="mt-4 max-w-[34ch] text-base leading-7 text-zinc-700">
-            {subtext}
-          </div>
-        ) : null}
-      </div>
-    </Card>
-  );
-}
-
-function CenterTextCard({ text }: { text: string }) {
-  return (
-    <Card className="p-8 sm:p-10">
-      <div className="flex min-h-[280px] items-center justify-center text-center">
-        <div className="max-w-[38ch] text-base leading-7 text-zinc-700">{text}</div>
-      </div>
-    </Card>
-  );
-}
+const featuredCompanies = [
+  {
+    name: "Lorikeet",
+    logo: "/logos/lorikeet.svg",
+    logoClass: "h-7 w-32",
+  },
+  { name: "Hnry", logo: "/logos/hnry.svg", logoClass: "h-9 w-20" },
+  { name: "Heidi", logo: "/logos/heidi.svg", logoClass: "h-10 w-30" },
+  { name: "nexl", logo: "/logos/nexl.svg", logoClass: "h-7 w-24" },
+  { name: "AutoGrab", logo: "/logos/autograb.svg", logoClass: "h-7 w-32" },
+  { name: "kismet", logo: "/logos/kismet-wordmark.svg", logoClass: "h-7 w-28" },
+  { name: "go1", logo: "/logos/go1-wordmark.png", logoClass: "h-9 w-16" },
+  { name: "Neara", logo: "/logos/neara.svg", logoClass: "h-7 w-28" },
+];
 
 export default function Page() {
-  const scrollContainerId = "report-scroll";
-  const sectionIds = report.sections.map((s) => s.id);
-  const sectionStats: Record<string, { label: string; value: string }[]> = {
-    "exec-summary": [
-      { label: "Focus", value: "durability" },
-      { label: "Separator", value: "execution" },
-      { label: "Investor bar", value: "distribution" },
-      { label: "Cadence", value: "weekly" },
-    ],
-    benchmarks: [
-      { label: "Seed ARR", value: "$0.2–$1.0m" },
-      { label: "Series A growth", value: "2–4×" },
-      { label: "GM range", value: "70–90%" },
-      { label: "NRR", value: "100–130%" },
-    ],
-    playbooks: [
-      { label: "Playbooks", value: "6" },
-      { label: "Goal", value: "repeatability" },
-      { label: "Cadence", value: "WBR" },
-      { label: "Owner", value: "named" },
-    ],
-    "au-dynamics": [
-      { label: "Constraint", value: "geography" },
-      { label: "Win", value: "distribution" },
-      { label: "Hiring", value: "scarce" },
-      { label: "Procurement", value: "trust assets" },
-    ],
-  };
-
-  const leftCards = [
-    ...report.highlights.map((s) => ({
-      id: `metric-${s.label}`,
-      node: <CenterMetricCard value={s.value} label={s.label} />,
-    })),
-    {
-      id: "qualitative-analysis",
-      node: (
-        <CenterHeadingCard
-          heading="Qualitative analysis"
-          subtext="Operator interviews → recurring systems, not one-off tactics."
-        />
-      ),
-    },
-    {
-      id: "qualitative-quote",
-      node: (
-        <CenterTextCard text="The biggest separator isn’t AI adoption — it’s execution: instrumented funnels, ruthless ICP discipline, and a weekly operating cadence." />
-      ),
-    },
-    {
-      id: "card-mini-chart",
-      node: (
-        <Card className="p-7 sm:p-8">
-          <div className="flex items-center justify-between gap-4">
-            <div className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-600">
-              Snapshot
-            </div>
-            <div className="rounded-full border border-black/10 bg-white/70 px-3 py-1 text-[11px] text-zinc-600">
-              preview
-            </div>
-          </div>
-          <div className="mt-5 text-sm leading-6 text-zinc-700">
-            What the “good” curve looks like when retention holds and sales cycles compress.
-          </div>
-          <div className="mt-6 overflow-hidden rounded-2xl bg-zinc-950">
-            <div className="p-5">
-              <MiniChart />
-            </div>
-          </div>
-        </Card>
-      ),
-    },
-    ...report.sections
-      .flatMap((s) => {
-        if ("table" in s && s.table) {
-          return [
-            {
-              id: "card-benchmarks-table",
-              node: (
-                <Card className="overflow-hidden">
-                  <div className="border-b border-black/10 p-7 sm:p-8">
-                    <div className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-600">
-                      Benchmarks
-                    </div>
-                    <div className="mt-2 font-(--font-display) text-3xl tracking-tight text-zinc-950">
-                      Performance ranges
-                    </div>
-                    <div className="mt-3 text-sm leading-6 text-zinc-700">
-                      Directional ranges for pattern-matching targets by stage.
-                    </div>
-                  </div>
-                  <div className="overflow-x-auto">
-                    <table className="w-full border-collapse bg-white text-left text-sm">
-                      <thead className="bg-black/3 text-xs uppercase tracking-wide text-zinc-600">
-                        <tr>
-                          {s.table.columns.map((c) => (
-                            <th key={c} className="whitespace-nowrap px-4 py-3 font-medium">
-                              {c}
-                            </th>
-                          ))}
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-black/10">
-                        {s.table.rows.map((r) => (
-                          <tr key={r[0]} className="text-zinc-700">
-                            {r.map((cell) => (
-                              <td key={cell} className="whitespace-nowrap px-4 py-3">
-                                {cell}
-                              </td>
-                            ))}
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </Card>
-              ),
-            },
-          ];
-        }
-
-        if ("playbooks" in s && s.playbooks) {
-          return s.playbooks.map((p) => ({
-            id: `card-playbook-${p.title}`,
-            node: (
-              <Card className="p-8 sm:p-10">
-                <div className="flex min-h-[280px] flex-col items-center justify-center text-center">
-                  <div className="font-(--font-display) text-4xl leading-[0.98] tracking-[-0.03em] text-zinc-950 sm:text-5xl">
-                    {p.title}
-                  </div>
-                  <div className="mt-4 max-w-[40ch] text-base leading-7 text-zinc-700">
-                    {p.desc}
-                  </div>
-                  <div className="mt-6 flex flex-wrap justify-center gap-2">
-                    {p.signals.map((sig) => (
-                      <span
-                        key={sig}
-                        className="rounded-full border border-black/10 bg-white/70 px-3 py-1 text-xs text-zinc-600"
-                      >
-                        {sig}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </Card>
-            ),
-          }));
-        }
-
-        return [];
-      })
-      .filter(Boolean),
-  ];
-
   return (
     <div className="flex flex-col flex-1 bg-zinc-100 text-foreground dark:bg-zinc-950">
+      <MobileMenu />
       <main className="flex flex-1 flex-col">
         <div className="relative flex flex-1 overflow-hidden">
           {/* overall background treatment */}
@@ -399,33 +147,11 @@ export default function Page() {
           </div>
 
           <div className="grid min-h-svh w-full grid-cols-1 lg:grid-cols-2">
-            {/* Left: cards column (scrollable, stacked/rotating) */}
-            <div className="relative order-2 flex min-h-svh flex-col overflow-hidden bg-white text-zinc-950 lg:order-1">
-              <div className="pointer-events-none absolute inset-0 opacity-70 dark:opacity-45">
-                <div className="absolute -top-24 left-[-10%] h-72 w-72 rounded-full bg-zinc-950/8 blur-3xl dark:bg-white/10" />
-                <div className="absolute top-40 right-[-15%] h-72 w-72 rounded-full bg-zinc-950/6 blur-3xl dark:bg-white/10" />
-              </div>
-
-              <div className="relative z-10">
-                <ResponsiveCards
-                  items={leftCards}
-                  footerCta={
-                    <a
-                      href="#"
-                      className="inline-flex h-12 items-center justify-center rounded-full bg-black px-6 text-sm font-medium text-white shadow-[0_10px_30px_-12px_rgba(0,0,0,0.35)] transition-colors hover:bg-zinc-900"
-                    >
-                      Get full report
-                    </a>
-                  }
-                />
-              </div>
-            </div>
-
-            {/* Right: narrative panel */}
-            <div className="relative order-1 min-h-svh overflow-hidden border-l border-black/10 bg-black text-zinc-50 lg:order-2">
+            {/* Left: Harvey-style image-backed hero panel */}
+            <div className="relative min-h-svh overflow-hidden bg-black text-zinc-50">
               <div className="absolute inset-0">
                 {/* base background image */}
-                <div className="absolute inset-0 scale-[1.18] bg-[url('/right-panel-bg.webp')] bg-cover bg-position-[center_62%]" />
+                <div className="absolute inset-0 scale-[1.18] bg-[url('/left-panel-bg.jpg')] bg-cover bg-position-[center_62%]" />
 
                 {/* deep frost overlay */}
                 <div className="absolute inset-0 backdrop-blur-[1px]" />
@@ -433,40 +159,159 @@ export default function Page() {
 
                 {/* texture layers */}
                 <div className="absolute inset-0 bg-black/18" />
-                <div className="absolute inset-0 opacity-[0.70] mix-blend-overlay bg-[url('/noise.svg')]" />
+                <div className="absolute inset-0 opacity-[0.95] mix-blend-overlay bg-[url('/noise.svg')]" />
+                <div className="absolute inset-0 opacity-[0.35] mix-blend-soft-light bg-[url('/noise.svg')]" />
               </div>
 
-              {/* right panel is static (no scrolling) */}
-              <div className="relative z-10 flex min-h-svh flex-col justify-start px-6 pb-10 pt-8 lg:px-10 lg:pb-10 lg:pt-8">
-                <div className="flex items-start justify-between gap-6">
-                  <div className="text-sm font-medium text-zinc-50/85">Curiosity Centre</div>
-                  <div className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-zinc-200/80">
-                    Preview
-                  </div>
-                </div>
+              {/* left panel is static (no scrolling) */}
+              <div className="relative z-10 flex min-h-svh flex-col justify-between px-6 pb-10 pt-10 lg:px-10 lg:pb-12 lg:pt-12">
+                {/* top brand */}
+                <Image
+                  src="/curiosity-centre-logo-blue.png"
+                  alt="Curiosity Centre"
+                  width={385}
+                  height={85}
+                  priority
+                  className="-mt-7 hidden h-auto w-44 object-contain brightness-0 invert sm:w-52 lg:block lg:w-56"
+                />
 
-                <div className="mt-16">
-                  <h1 className="mt-0 font-(--font-display) text-6xl italic leading-[0.90] tracking-[-0.03em] text-zinc-50">
-                    <span className="block font-semibold">{report.title}</span>
+                {/* hero */}
+                <div className="mt-24 max-w-[28rem] lg:mt-10 xl:max-w-[36rem]">
+                  <h1 className="font-display text-[4.6rem] font-normal italic leading-[0.86] tracking-[-0.045em] text-zinc-50 md:text-[5.4rem] xl:text-[6.4rem]">
+                    The Startup
+                    <br />
+                    Playbooks Top
+                    <br />
+                    Teams Rely On
                   </h1>
-                  <div className="mt-28 max-w-xl text-sm text-zinc-200/80">
-                    {report.subtitle}
+                  <ReportRequestModal />
+                </div>
+
+                {/* bottom copy */}
+                <div className="max-w-xl">
+                  <div className="text-xs uppercase tracking-[0.2em] text-zinc-200/80">
+                    Customer impact
                   </div>
-                  <div className="mt-4 max-w-lg text-base leading-7 text-white">
-                    A fast preview of the benchmarks and operator playbooks behind Australia’s
-                    top-performing startups — directional ranges by stage, recurring operator
-                    systems, and practical checklists to sharpen weekly execution.
+                  <div className="mt-4 text-base leading-7 text-zinc-50/90">
+                    A qualitative + quantitative assessment of Australian startups — benchmarks
+                    by stage, recurring operator systems, and practical checklists you can use
+                    in your weekly cadence.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right: Harvey-style stats / proof panel */}
+            <div className="relative min-h-svh overflow-hidden bg-[#111719] text-zinc-50">
+              <div className="absolute inset-0 opacity-[0.18] bg-[url('/noise.svg')]" />
+              <div className="relative z-10 flex min-h-svh flex-col justify-between px-6 pb-10 pt-10 lg:px-10 lg:pb-12 lg:pt-12">
+                <div className="hidden flex-wrap items-center justify-end gap-x-6 gap-y-3 text-sm text-zinc-200/85 lg:flex">
+                  <a href="https://curiositycentre.com/" className="hover:text-white">
+                    About Us
+                  </a>
+                  <a
+                    href="https://curiositycentre.com/the-high-flyers-podcast"
+                    className="hover:text-white"
+                  >
+                    Podcast
+                  </a>
+                  <a href="https://curiositycentre.com/#events" className="hover:text-white">
+                    Events
+                  </a>
+                  <a
+                    href="https://curiositycentre.com/#wf-form-Contact-Form"
+                    className="hover:text-white"
+                  >
+                    Advisory
+                  </a>
+                  <ContactFormModal triggerClassName="hover:text-white" />
+                </div>
+
+                <div className="order-2 mt-10 lg:order-none">
+                  <div className="border-t border-white/15" />
+                  <div className="flex items-baseline justify-between gap-6 py-8">
+                    <div className="font-display text-6xl leading-[0.9] tracking-[-0.03em] text-white">
+                      {report.highlights[0].value}
+                    </div>
+                    <div className="text-sm text-zinc-200/80">Companies Benchmarked</div>
+                  </div>
+                  <div className="border-t border-white/15" />
+                  <div className="flex items-baseline justify-between gap-6 py-8">
+                    <div className="font-display text-6xl leading-[0.9] tracking-[-0.03em] text-white">
+                      {report.highlights[1].value}
+                    </div>
+                    <div className="text-sm text-zinc-200/80">Operator Interviews</div>
+                  </div>
+                  <div className="border-t border-white/15" />
+                  <div className="flex items-baseline justify-between gap-6 py-8">
+                    <div className="font-display text-6xl leading-[0.9] tracking-[-0.03em] text-white">
+                      {report.highlights[2].value}
+                    </div>
+                    <div className="text-sm text-zinc-200/80">Sectors Covered</div>
                   </div>
                 </div>
 
-                <div className="mt-auto max-w-xl">
-                  <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center">
-                    <a
-                      href="#"
-                      className="inline-flex h-12 items-center justify-center rounded-full bg-white px-6 text-sm font-medium text-zinc-950 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.6)] transition-colors hover:bg-zinc-200"
-                    >
-                      Get full report
-                    </a>
+                <div className="order-3 grid gap-10 pt-2 lg:order-none lg:grid-cols-2">
+                  <div>
+                    <div className="border-t border-white/15 pt-6">
+                      <div className="text-base font-semibold tracking-tight text-white">
+                        CURIOSITY CENTRE
+                      </div>
+                      <div className="mt-2 text-sm leading-6 text-zinc-200/80">
+                        Playbooks for founders, CEOs, and investors operating in Australia.
+                      </div>
+                    </div>
+                    <div className="mt-6 text-sm leading-6 text-zinc-200/80">
+                      Practical benchmarks and operating systems you can apply the same week.
+                    </div>
+                  </div>
+                  <div>
+                    <div className="border-t border-white/15 pt-6">
+                      <div className="text-white" aria-label="X">
+                        <svg
+                          viewBox="0 0 24 24"
+                          aria-hidden="true"
+                          className="h-5 w-5 fill-current"
+                        >
+                          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                        </svg>
+                      </div>
+                      <div className="mt-2 text-sm text-zinc-200/80">@curiositycentre ↗</div>
+                    </div>
+                    <div className="mt-4 text-base leading-7 text-white/90">
+                      “Signal over noise. A useful operating reference for teams trying to turn
+                      growth into repeatability.”
+                    </div>
+                  </div>
+                </div>
+
+                <div className="order-1 mt-4 border-t border-white/10 pt-8 lg:order-none lg:mt-0">
+                  <div className="mb-4 text-[11px] uppercase tracking-[0.22em] text-zinc-200/45">
+                    Featured companies include
+                  </div>
+                  <div
+                    className="relative mt-3 overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_10%,black_90%,transparent)] lg:mt-0"
+                    aria-label="Featured companies"
+                  >
+                    <div className="logo-marquee flex w-max items-center gap-10 text-zinc-200/60">
+                      {[...featuredCompanies, ...featuredCompanies].map((company, idx) => (
+                        <div
+                          key={`${company.name}-${idx}`}
+                          className="flex h-10 shrink-0 items-center whitespace-nowrap opacity-70"
+                        >
+                          <Image
+                            src={company.logo}
+                            alt={company.name}
+                            width={160}
+                            height={48}
+                            className={[
+                              "object-contain brightness-0 invert",
+                              company.logoClass,
+                            ].join(" ")}
+                          />
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
