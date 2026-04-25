@@ -139,7 +139,7 @@ export default function Page() {
     <div className="flex flex-col flex-1 bg-zinc-100 text-foreground dark:bg-zinc-950">
       <MobileMenu />
       <main className="flex flex-1 flex-col">
-        <div className="relative flex flex-1 overflow-hidden">
+        <div className="relative flex flex-1 overflow-x-hidden lg:overflow-hidden">
           {/* overall background treatment */}
           <div className="pointer-events-none absolute inset-0">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(0,0,0,0.06),transparent_55%),radial-gradient(circle_at_75%_70%,rgba(0,0,0,0.05),transparent_45%)] dark:bg-[radial-gradient(circle_at_20%_15%,rgba(255,255,255,0.08),transparent_55%),radial-gradient(circle_at_75%_70%,rgba(255,255,255,0.06),transparent_45%)]" />
@@ -202,9 +202,9 @@ export default function Page() {
             </div>
 
             {/* Right: Harvey-style stats / proof panel */}
-            <div className="relative min-h-svh overflow-hidden bg-[#111719] text-zinc-50">
+            <div className="relative overflow-hidden bg-[#111719] text-zinc-50 lg:min-h-svh">
               <div className="absolute inset-0 opacity-[0.18] bg-[url('/noise.svg')]" />
-              <div className="relative z-10 flex min-h-svh flex-col justify-between px-6 pb-10 pt-10 lg:px-10 lg:pb-12 lg:pt-12">
+              <div className="relative z-10 flex flex-col px-6 pb-10 pt-10 lg:min-h-svh lg:justify-between lg:px-10 lg:pb-12 lg:pt-12">
                 <div className="hidden flex-wrap items-center justify-end gap-x-6 gap-y-3 text-sm text-zinc-200/85 lg:flex">
                   <a href="https://curiositycentre.com/" className="hover:text-white">
                     About Us
@@ -254,14 +254,18 @@ export default function Page() {
                 <div className="order-3 grid gap-10 pt-2 lg:order-none lg:grid-cols-2">
                   <div>
                     <div className="border-t border-white/15 pt-6">
-                      <div className="text-base font-semibold tracking-tight text-white">
-                        CURIOSITY CENTRE
-                      </div>
+                      <Image
+                        src="/curiosity-centre-logo-blue.png"
+                        alt="Curiosity Centre"
+                        width={385}
+                        height={85}
+                        className="h-auto w-36 object-contain brightness-0 invert"
+                      />
                       <div className="mt-2 text-sm leading-6 text-zinc-200/80">
                         Playbooks for founders, CEOs, and investors operating in Australia.
                       </div>
                     </div>
-                    <div className="mt-6 text-sm leading-6 text-zinc-200/80">
+                    <div className="mt-3 text-sm leading-6 text-zinc-200/80">
                       Practical benchmarks and operating systems you can apply the same week.
                     </div>
                   </div>
