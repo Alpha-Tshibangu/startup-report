@@ -40,7 +40,7 @@ export function ReportRequestModal() {
         }}
         className="mt-8 inline-flex w-fit items-center rounded-full border border-white/25 bg-white px-5 py-3 text-sm font-semibold text-zinc-950 shadow-[0_18px_45px_-24px_rgba(0,0,0,0.8)] transition hover:bg-zinc-100"
       >
-        Get the Full Report
+        Access Latest Edition
       </button>
 
       {isMounted && isOpen

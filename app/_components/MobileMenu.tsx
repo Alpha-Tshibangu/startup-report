@@ -5,10 +5,11 @@ import { useEffect, useState } from "react";
 import { ContactFormModal } from "./ContactFormModal";
 
 const navItems = [
-  { label: "About Us", href: "https://curiositycentre.com/" },
-  { label: "Podcast", href: "https://curiositycentre.com/the-high-flyers-podcast" },
-  { label: "Events", href: "https://curiositycentre.com/#events" },
-  { label: "Advisory", href: "https://curiositycentre.com/#wf-form-Contact-Form" },
+  { label: "Curiosity Centre", href: "https://curiositycentre.com/" },
+  {
+    label: "The High Flyers Podcast",
+    href: "https://curiositycentre.com/the-high-flyers-podcast",
+  },
 ];
 
 export function MobileMenu() {
@@ -40,7 +41,7 @@ export function MobileMenu() {
           width={385}
           height={85}
           priority
-          className="h-auto w-48 object-contain brightness-0 invert"
+          className="h-auto w-56 object-contain brightness-0 invert"
         />
         <button
           type="button"
@@ -93,7 +94,7 @@ export function MobileMenu() {
               }}
               className="border-b border-white/10 bg-transparent pb-4 text-left text-3xl font-medium tracking-tight text-zinc-50"
             >
-              Contact Us
+              Partner with Us
             </button>
           </nav>
         </div>

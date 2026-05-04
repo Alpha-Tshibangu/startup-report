@@ -14,7 +14,7 @@ type ContactFormModalProps = {
 
 export function ContactFormModal({
   triggerClassName,
-  triggerLabel = "Contact Us",
+  triggerLabel = "Partner with Us",
   hideTrigger = false,
   isOpen: controlledIsOpen,
   onOpen,
