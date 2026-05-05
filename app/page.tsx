@@ -48,7 +48,7 @@ type InsightCard = {
 const insightCards: InsightCard[] = [
   {
     href: "https://curiositycentre.com/the-high-flyers-podcast",
-    title: "Hear how company leaders operate—on The High Flyers Podcast.",
+    title: "Listen to company leaders unpack their growth playbooks",
     overlayHeroBackground: true,
     heroForegroundTitle: "The High Flyers Podcast",
     heroTilePaddingClass: "px-3 py-6 sm:px-4 sm:py-8",
@@ -56,11 +56,15 @@ const insightCards: InsightCard[] = [
   },
   {
     href: "https://curiositycentre.com/",
-    title: "See the last edition—benchmarks, sectors, and operator playbooks.",
+    title: "Access past editions",
     overlayHeroBackground: true,
-    heroForegroundTitle: "Playbook Reports",
+    heroForegroundTitle: "Playbook Archive",
   },
 ];
+
+/** Eyebrow labels (marquee section titles, etc.) */
+const eyebrowClass =
+  "mb-4 text-[11px] uppercase tracking-[0.22em] text-zinc-200/90";
 
 /**
  * Infinite logo marquee (CSS-only, seamless loop).
@@ -159,17 +163,15 @@ export default function Page() {
                       </span>
                     </h1>
                     <div className="mt-8 w-full min-w-0 py-2">
-                      <div className="mb-4 text-[11px] uppercase tracking-[0.22em] text-zinc-200/45">
-                        Current edition features insights from
-                      </div>
+                      <div className={eyebrowClass}>Current edition features insights from</div>
                       <div
                         className="relative overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_12%,black_88%,transparent)]"
                         aria-label="Featured companies"
                       >
-                      <LogoMarqueeTrack
-                        companies={featuredCompaniesMarquee}
-                        instanceId="current-edition"
-                      />
+                        <LogoMarqueeTrack
+                          companies={featuredCompaniesMarquee}
+                          instanceId="current-edition"
+                        />
                       </div>
                     </div>
                     <ReportRequestModal />
@@ -184,7 +186,7 @@ export default function Page() {
               <div className="relative z-10 flex h-full min-h-0 flex-col px-6 pb-10 pt-10 lg:max-h-full lg:justify-between lg:overflow-hidden lg:px-10 lg:pb-12 lg:pt-12">
                 <div className="hidden flex-wrap items-center justify-end gap-x-6 gap-y-3 text-sm text-zinc-200/85 lg:mb-8 lg:flex">
                   <a href="https://curiositycentre.com/" className="hover:text-white">
-                    Curiosity Centre
+                    About Curiosity Centre
                   </a>
                   <a
                     href="https://curiositycentre.com/the-high-flyers-podcast"
@@ -201,9 +203,7 @@ export default function Page() {
                 <div className="order-1 mt-10 lg:order-none lg:mt-0">
                   <div className="border-t border-white/15" />
                   <div className="py-8">
-                    <div className="mb-4 text-[11px] uppercase tracking-[0.22em] text-zinc-200/45">
-                      Past edition features insights from
-                    </div>
+                    <div className={eyebrowClass}>Past edition features insights from</div>
                     <div
                       className="relative overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_12%,black_88%,transparent)]"
                       aria-label="Featured companies"
@@ -218,11 +218,11 @@ export default function Page() {
 
                 <div className="order-2 lg:order-none">
                   <div className="border-t border-white/15" />
-                  <div className="flex items-baseline justify-between gap-6 py-8">
-                    <div className="font-display text-6xl leading-[0.9] tracking-[-0.03em] text-white">
-                      5250+
-                    </div>
-                    <div className="text-sm text-zinc-200/80">Readers</div>
+                  <div className="py-8">
+                    <p className="max-w-xl font-display text-xl font-normal leading-snug tracking-[-0.03em] text-zinc-100 sm:text-2xl">
+                      Read by <span className="tabular-nums">5,250+</span> founders, executives and
+                      investors
+                    </p>
                   </div>
                 </div>
 

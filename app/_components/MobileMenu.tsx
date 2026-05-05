@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { ContactFormModal } from "./ContactFormModal";
 
 const navItems = [
-  { label: "Curiosity Centre", href: "https://curiositycentre.com/" },
+  { label: "About Curiosity Centre", href: "https://curiositycentre.com/" },
   {
     label: "The High Flyers Podcast",
     href: "https://curiositycentre.com/the-high-flyers-podcast",
