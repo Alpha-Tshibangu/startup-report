@@ -22,14 +22,14 @@ const featuredCompaniesMarquee = [
 
 /** Logos for the right column — “Past edition features insights from” */
 const featuredCompanies = [
-  { name: "Lorikeet", logo: "/logos/lorikeet.svg", logoClass: "h-9 w-[9.5rem]" },
-  { name: "Hnry", logo: "/logos/hnry.svg", logoClass: "h-10 w-48" },
-  { name: "Heidi", logo: "/logos/heidi.svg", logoClass: "h-10 w-32" },
-  { name: "nexl", logo: "/logos/nexl.svg", logoClass: "h-9 w-32" },
-  { name: "AutoGrab", logo: "/logos/autograb.svg", logoClass: "h-9 w-36" },
-  { name: "Kismet", logo: "/logos/kismet-wordmark.svg", logoClass: "h-9 w-32" },
-  { name: "Go1", logo: "/logos/go1-wordmark.png", logoClass: "h-10 w-28" },
-  { name: "Neara", logo: "/logos/neara.svg", logoClass: "h-9 w-32" },
+  { name: "Lorikeet", logo: "/logos/lorikeet.svg", logoClass: "h-9 w-auto max-w-[9.5rem]" },
+  { name: "Hnry", logo: "/logos/hnry.svg", logoClass: "h-12 w-auto max-w-[14rem]" },
+  { name: "Heidi", logo: "/logos/heidi.svg", logoClass: "h-12 w-auto max-w-44" },
+  { name: "nexl", logo: "/logos/nexl.svg", logoClass: "h-9 w-auto max-w-32" },
+  { name: "AutoGrab", logo: "/logos/autograb.svg", logoClass: "h-9 w-auto max-w-36" },
+  { name: "Kismet", logo: "/logos/kismet-wordmark.svg", logoClass: "h-9 w-auto max-w-32" },
+  { name: "Go1", logo: "/logos/go1-wordmark.png", logoClass: "h-12 w-auto max-w-44" },
+  { name: "Neara", logo: "/logos/neara.svg", logoClass: "h-9 w-auto max-w-32" },
 ];
 
 type InsightCard = {
@@ -72,7 +72,7 @@ const eyebrowClass =
  * - Outer: `overflow-hidden` + edge mask is on the parent in the page.
  * - Track: one `display: flex; flex-wrap: nowrap; width: max-content` row.
  * - Content: `[...logos, ...logos]` — the second copy must be identical to the first.
- * - Spacing: each item uses the same trailing margin so one “cycle” width = half the track.
+ * - Spacing: uniform `gap-x` between items (replaces per-item margin so gutters stay even).
  * - Animation: `@keyframes logo-marquee { to { transform: translateX(-50%); } }`
  */
 function LogoMarqueeTrack({
@@ -85,11 +85,11 @@ function LogoMarqueeTrack({
   const duplicated = [...companies, ...companies];
 
   return (
-    <div className="motion-safe:animate-logo-marquee flex w-max shrink-0 flex-nowrap items-center will-change-transform motion-reduce:animate-none">
+    <div className="motion-safe:animate-logo-marquee flex w-max shrink-0 flex-nowrap items-center gap-x-10 will-change-transform motion-reduce:animate-none">
       {duplicated.map((company, idx) => (
         <div
           key={`${instanceId}-${company.name}-${idx}`}
-          className="mr-12 flex h-12 shrink-0 items-center whitespace-nowrap opacity-70 text-zinc-200/60"
+          className="flex h-14 w-fit min-w-0 shrink-0 items-center justify-center whitespace-nowrap opacity-85 text-zinc-200/70"
         >
           <Image
             src={company.logo}
@@ -97,7 +97,41 @@ function LogoMarqueeTrack({
             width={240}
             height={64}
             className={[
-              "object-contain object-left brightness-0 invert",
+              "object-contain object-center brightness-0 invert",
+              company.logoClass,
+            ].join(" ")}
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/** Static logo grid: six logos in two rows of three. */
+function CurrentEditionLogoGrid({
+  companies,
+  id,
+}: {
+  companies: readonly { name: string; logo: string; logoClass: string }[];
+  id: string;
+}) {
+  return (
+    <div
+      className="grid grid-cols-3 justify-items-center gap-x-3 gap-y-5 text-zinc-200/75 sm:gap-x-6 sm:gap-y-6"
+      aria-label="Featured companies"
+    >
+      {companies.map((company, idx) => (
+        <div
+          key={`${id}-${company.name}-${idx}`}
+          className="flex h-12 w-full min-w-0 max-w-full items-center justify-center opacity-90"
+        >
+          <Image
+            src={company.logo}
+            alt={company.name}
+            width={240}
+            height={64}
+            className={[
+              "max-h-12 max-w-full object-contain object-center brightness-0 invert",
               company.logoClass,
             ].join(" ")}
           />
@@ -164,15 +198,10 @@ export default function Page() {
                     </h1>
                     <div className="mt-8 w-full min-w-0 py-2">
                       <div className={eyebrowClass}>Current edition features insights from</div>
-                      <div
-                        className="relative overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_12%,black_88%,transparent)]"
-                        aria-label="Featured companies"
-                      >
-                        <LogoMarqueeTrack
-                          companies={featuredCompaniesMarquee}
-                          instanceId="current-edition"
-                        />
-                      </div>
+                      <CurrentEditionLogoGrid
+                        companies={featuredCompaniesMarquee}
+                        id="current-edition"
+                      />
                     </div>
                     <ReportRequestModal />
                   </div>
