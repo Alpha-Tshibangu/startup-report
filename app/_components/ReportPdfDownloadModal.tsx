@@ -2,34 +2,72 @@
 
 import { FormEvent, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import { REPORT_PDF_ASSETS, type ReportEdition } from "../lib/report-pdfs";
 
-type ContactFormModalProps = {
-  triggerClassName?: string;
-  triggerLabel?: string;
-  hideTrigger?: boolean;
-  isOpen?: boolean;
-  onOpen?: () => void;
-  onOpenChange?: (isOpen: boolean) => void;
+const DESCRIPTION =
+  "Share your details to access the report. It opens in a new tab and a copy may save to your device.";
+
+const MODAL_COPY: Record<
+  ReportEdition,
+  { eyebrow: string; title: string; description: string }
+> = {
+  past: {
+    eyebrow: "Startup Playbooks Report",
+    title: "Access past editions",
+    description: DESCRIPTION,
+  },
+  latest: {
+    eyebrow: "Startup Playbooks Report",
+    title: "Access Latest Edition",
+    description: DESCRIPTION,
+  },
 };
 
-export function ContactFormModal({
+function openAndDownloadPdf(pdfPath: string, downloadFileName: string) {
+  const url = new URL(pdfPath, window.location.origin).href;
+  window.open(url, "_blank", "noopener,noreferrer");
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = downloadFileName;
+  a.rel = "noopener";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
+export type ReportPdfDownloadModalProps = {
+  edition: ReportEdition;
+  variant?: "hero-cta" | "plain-trigger";
+  triggerLabel?: string;
+  triggerClassName?: string;
+  hideTrigger?: boolean;
+  isOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
+};
+
+export function ReportPdfDownloadModal({
+  edition,
+  variant = "plain-trigger",
+  triggerLabel,
   triggerClassName,
-  triggerLabel = "Partner with Us",
   hideTrigger = false,
   isOpen: controlledIsOpen,
-  onOpen,
   onOpenChange,
-}: ContactFormModalProps) {
-  const [uncontrolledIsOpen, setUncontrolledIsOpen] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+}: ReportPdfDownloadModalProps) {
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const isOpen = controlledIsOpen ?? uncontrolledIsOpen;
-  const setIsOpen = onOpenChange ?? setUncontrolledIsOpen;
+  const isOpen = controlledIsOpen ?? uncontrolledOpen;
+  const setOpen = onOpenChange ?? setUncontrolledOpen;
+
+  const copy = MODAL_COPY[edition];
+  const titleId = `report-pdf-${edition}-title`;
 
   useEffect(() => {
-    setIsMounted(true);
+    setMounted(true);
   }, []);
 
   useEffect(() => {
@@ -37,35 +75,44 @@ export function ContactFormModal({
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setIsOpen(false);
+        setOpen(false);
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, setOpen]);
+
+  useEffect(() => {
+    if (isOpen) {
+      setSubmitted(false);
+      setSubmitError(null);
+    }
   }, [isOpen]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSubmitError(null);
-    const fd = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const fd = new FormData(form);
 
     const body = {
+      edition,
       fullName: String(fd.get("fullName") ?? "").trim(),
+      company: String(fd.get("company") ?? "").trim(),
       email: String(fd.get("email") ?? "").trim(),
-      message: String(fd.get("message") ?? "").trim(),
     };
 
-    setIsSubmitting(true);
+    setSubmitting(true);
     try {
-      const res = await fetch("/api/partner-with-us", {
+      const res = await fetch("/api/report-pdf-lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
 
       const data: unknown = await res.json().catch(() => ({}));
-      const errMsg =
+      const message =
         typeof data === "object" &&
         data !== null &&
         "error" in data &&
@@ -74,15 +121,23 @@ export function ContactFormModal({
           : "Something went wrong. Please try again.";
 
       if (!res.ok) {
-        setSubmitError(errMsg);
+        setSubmitError(message);
         return;
       }
 
-      setIsSubmitted(true);
+      const { pdfPath, downloadFileName } = REPORT_PDF_ASSETS[edition];
+      openAndDownloadPdf(pdfPath, downloadFileName);
+      setSubmitted(true);
     } finally {
-      setIsSubmitting(false);
+      setSubmitting(false);
     }
   };
+
+  const heroButtonClass =
+    "mt-8 inline-flex w-fit items-center rounded-full border border-white/25 bg-white px-5 py-3 text-sm font-semibold text-zinc-950 shadow-[0_18px_45px_-24px_rgba(0,0,0,0.8)] transition hover:bg-zinc-100";
+
+  const defaultTrigger =
+    edition === "latest" ? "Access Latest Edition" : "Access past editions";
 
   return (
     <>
@@ -90,39 +145,40 @@ export function ContactFormModal({
         <button
           type="button"
           onClick={() => {
-            onOpen?.();
-            setIsOpen(true);
-            setIsSubmitted(false);
-            setSubmitError(null);
+            setOpen(true);
           }}
-          className={[
-            "bg-transparent p-0 text-inherit",
-            triggerClassName ?? "hover:text-white",
-          ].join(" ")}
+          className={
+            variant === "hero-cta"
+              ? heroButtonClass
+              : [
+                  "bg-transparent p-0 text-inherit",
+                  triggerClassName ?? "hover:text-white",
+                ].join(" ")
+          }
         >
-          {triggerLabel}
+          {triggerLabel ?? defaultTrigger}
         </button>
       )}
 
-      {isMounted && isOpen
+      {mounted && isOpen
         ? createPortal(
             <div
               className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 px-5 py-8 backdrop-blur-sm"
               role="dialog"
               aria-modal="true"
-              aria-labelledby="contact-form-title"
+              aria-labelledby={titleId}
             >
               <button
                 type="button"
-                aria-label="Close contact form"
-                onClick={() => setIsOpen(false)}
+                aria-label="Close form"
+                onClick={() => setOpen(false)}
                 className="absolute inset-0 cursor-default"
               />
               <div className="relative w-full max-w-lg rounded-3xl bg-[#111719] p-6 text-white shadow-2xl sm:p-8">
                 <button
                   type="button"
                   aria-label="Close"
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => setOpen(false)}
                   className="absolute right-5 top-5 z-10 text-2xl leading-none text-zinc-300 hover:text-white"
                 >
                   ×
@@ -130,22 +186,21 @@ export function ContactFormModal({
 
                 <div className="pr-10">
                   <div className="text-xs uppercase tracking-[0.22em] text-zinc-400">
-                    Curiosity Centre
+                    {copy.eyebrow}
                   </div>
                   <h2
-                    id="contact-form-title"
+                    id={titleId}
                     className="mt-3 font-display text-4xl italic leading-none tracking-[-0.04em]"
                   >
-                    Get in touch
+                    {copy.title}
                   </h2>
-                  <p className="mt-4 text-sm leading-6 text-zinc-300">
-                    Send us a note and we'll come back to you shortly.
-                  </p>
+                  <p className="mt-4 text-sm leading-6 text-zinc-300">{copy.description}</p>
                 </div>
 
-                {isSubmitted ? (
+                {submitted ? (
                   <div className="mt-8 rounded-2xl border border-white/10 bg-white/8 p-5 text-sm leading-6 text-zinc-100">
-                    Thanks, we've received your message and we'll be in touch soon.
+                    You’re all set — the report should be opening in a new tab. If nothing appears,
+                    check the tab bar or your downloads folder.
                   </div>
                 ) : (
                   <form className="mt-8 grid gap-4" onSubmit={handleSubmit}>
@@ -159,6 +214,15 @@ export function ContactFormModal({
                       />
                     </label>
                     <label className="grid gap-2 text-sm text-zinc-300">
+                      Your Company
+                      <input
+                        required
+                        name="company"
+                        className="rounded-xl bg-white/8 px-4 py-3 text-white outline-none transition placeholder:text-zinc-500 focus:bg-white/10"
+                        placeholder="Your company"
+                      />
+                    </label>
+                    <label className="grid gap-2 text-sm text-zinc-300">
                       Your Email Address
                       <input
                         required
@@ -168,16 +232,6 @@ export function ContactFormModal({
                         placeholder="you@company.com"
                       />
                     </label>
-                    <label className="grid gap-2 text-sm text-zinc-300">
-                      Message
-                      <textarea
-                        required
-                        name="message"
-                        rows={4}
-                        className="resize-none rounded-xl bg-white/8 px-4 py-3 text-white outline-none transition placeholder:text-zinc-500 focus:bg-white/10"
-                        placeholder="How can we help?"
-                      />
-                    </label>
                     {submitError ? (
                       <p className="text-sm text-red-300" role="alert">
                         {submitError}
@@ -185,10 +239,10 @@ export function ContactFormModal({
                     ) : null}
                     <button
                       type="submit"
-                      disabled={isSubmitting}
+                      disabled={submitting}
                       className="mt-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-zinc-950 transition hover:bg-zinc-100 disabled:cursor-not-allowed disabled:opacity-60"
                     >
-                      {isSubmitting ? "Sending…" : "Send message"}
+                      {submitting ? "Sending…" : "Access report"}
                     </button>
                   </form>
                 )}

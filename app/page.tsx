@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { ContactFormModal } from "./_components/ContactFormModal";
+import { InsightCardTile, type InsightCardModel } from "./_components/InsightCardTile";
 import { MobileMenu } from "./_components/MobileMenu";
 import { ReportRequestModal } from "./_components/ReportRequestModal";
 
@@ -32,18 +33,7 @@ const featuredCompanies = [
   { name: "Neara", logo: "/logos/neara.svg", logoClass: "h-9 w-auto max-w-32" },
 ];
 
-type InsightCard = {
-  href: string;
-  title: string;
-  overlayHeroBackground: true;
-  heroForegroundTitle: string;
-  /** Narrower horizontal padding = wider type line-length (optional per card) */
-  heroTilePaddingClass?: string;
-  /** Override display title size (optional per card) */
-  heroTitleTypographyClass?: string;
-  /** Optional width constraint for the in-tile title (e.g. shorter line-length) */
-  heroTitleWidthClass?: string;
-};
+type InsightCard = InsightCardModel;
 
 const insightCards: InsightCard[] = [
   {
@@ -59,6 +49,7 @@ const insightCards: InsightCard[] = [
     title: "Access past editions",
     overlayHeroBackground: true,
     heroForegroundTitle: "Playbook Archive",
+    reportEdition: "past",
   },
 ];
 
@@ -291,49 +282,7 @@ export default function Page() {
                   <div className="py-8">
                     <div className="grid gap-6 sm:grid-cols-2">
                       {insightCards.map((card) => (
-                        <a
-                          key={card.title}
-                          href={card.href}
-                          className={[
-                            "group/link group relative block outline-none transition-colors",
-                            "hover:text-white",
-                          ].join(" ")}
-                        >
-                          <div className="rounded-xl transition-[box-shadow] duration-300 lg:group-hover/link:shadow-[0_28px_60px_-28px_rgba(0,0,0,0.9)]">
-                            <div className="relative overflow-hidden rounded-xl bg-zinc-900 transition-all duration-300">
-                              <div className="relative aspect-[2/1] w-full overflow-hidden lg:transition-transform lg:duration-300 lg:group-hover:scale-105">
-                                <div
-                                  aria-hidden
-                                  className="absolute inset-0 scale-110 bg-[url('/left-panel-bg.jpg')] bg-cover bg-position-[center_62%]"
-                                />
-                                <div
-                                  aria-hidden
-                                  className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.45),rgba(0,0,0,0.72))]"
-                                />
-                                <div
-                                  className={[
-                                    "absolute inset-0 z-10 flex items-center justify-center",
-                                    card.heroTilePaddingClass ?? "p-6 sm:p-8",
-                                  ].join(" ")}
-                                >
-                                  <p
-                                    className={[
-                                      "text-balance text-center font-display font-normal italic leading-[1.08] tracking-[-0.03em] text-zinc-50",
-                                      card.heroTitleWidthClass ?? "w-full max-w-full",
-                                      card.heroTitleTypographyClass ??
-                                        "text-[clamp(1.15rem,3.8vw,1.85rem)] sm:text-[clamp(1.25rem,3.2vw,2rem)]",
-                                    ].join(" ")}
-                                  >
-                                    {card.heroForegroundTitle}
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <p className="mt-3 w-full text-sm font-semibold leading-snug text-zinc-100">
-                            {card.title}
-                          </p>
-                        </a>
+                        <InsightCardTile key={card.title} card={card} />
                       ))}
                     </div>
                   </div>
