@@ -15,7 +15,7 @@ const AIRTABLE_FIELDS = {
 } as const;
 
 function editionDisplay(edition: ReportEdition): string {
-  return edition === "latest" ? "Latest edition" : "Past editions";
+  return edition === "latest" ? "May 2026 Edition" : "May 2025 Edition";
 }
 
 export function getAirtableTableForEdition(edition: ReportEdition): string {
