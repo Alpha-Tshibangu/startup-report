@@ -176,6 +176,9 @@ export default function Page() {
                 {/* hero — vertically centered in column (below logo when present) */}
                 <div className="flex min-h-0 flex-1 flex-col justify-center">
                   <div className="max-w-[32rem] xl:max-w-[40rem]">
+                    <p className="mb-8 text-[11px] uppercase tracking-[0.22em] text-zinc-200/90">
+                      Playbooks Reports
+                    </p>
                     <h1 className="font-display text-[2.35rem] font-normal italic leading-[1.08] tracking-[-0.03em] text-zinc-50 sm:text-[2.75rem] md:text-[3.15rem] lg:text-[3.35rem] xl:text-[3.65rem]">
                       Built for founders, operators, and investors who care about{" "}
                       <span
@@ -250,13 +253,14 @@ export default function Page() {
                   <div>
                     <div className="border-t border-white/15 pt-6">
                       <div className="text-base leading-7 text-white/90">
-                        “Grounded in real operators—not slide theory. Australian benchmarks and playbooks
-                        our team uses every week.”
+                         "Curiosity Centre’s recent Playbooks Report was spot on: specific and insight
+                        rich. It delivered exactly as per our agreed brief and a brilliant response
+                        from our target audience of companies"
                       </div>
                       <div className="mt-6 min-w-0">
-                        <div className="text-sm text-zinc-200/85">Jordan Lee</div>
+                        <div className="text-sm text-zinc-200/85">Hari Srinivasan</div>
                         <div className="mt-0.5 text-xs text-zinc-200/60">
-                          Head of Go-to-Market, Google
+                          Head of Sales, Google Cloud
                         </div>
                       </div>
                     </div>
@@ -264,13 +268,15 @@ export default function Page() {
                   <div>
                     <div className="border-t border-white/15 pt-6">
                       <div className="text-base leading-7 text-white/90">
-                        “Signal over noise. A useful operating reference for teams trying to turn
-                        growth into repeatability.”
+                        “The Playbooks Report stands out from typical media. It captures how
+                        companies actually operate. For Neara, it drove high-quality inbound across
+                        hiring and investor conversations, and strengthened our positioning with the
+                        right audience.”
                       </div>
                       <div className="mt-6 min-w-0">
-                        <div className="text-sm text-zinc-200/85">Priya Natesan</div>
+                        <div className="text-sm text-zinc-200/85">Jack Curtis</div>
                         <div className="mt-0.5 text-xs text-zinc-200/60">
-                          Chief of Staff, Lorikeet
+                          Chief Commercial Officer, Neara
                         </div>
                       </div>
                     </div>
@@ -280,7 +286,7 @@ export default function Page() {
                 <div className="order-4 mt-10 lg:order-none lg:mt-0">
                   <div className="border-t border-white/15" />
                   <div className="py-8">
-                    <div className="grid gap-6 sm:grid-cols-2">
+                    <div className="grid gap-6 sm:grid-cols-2 sm:items-start">
                       {insightCards.map((card) => (
                         <InsightCardTile key={card.title} card={card} />
                       ))}

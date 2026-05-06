@@ -242,7 +242,7 @@ export function ReportPdfDownloadModal({
                       disabled={submitting}
                       className="mt-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-zinc-950 transition hover:bg-zinc-100 disabled:cursor-not-allowed disabled:opacity-60"
                     >
-                      {submitting ? "Sending…" : "Access report"}
+                      {submitting ? "Downloading…" : "Access report"}
                     </button>
                   </form>
                 )}
