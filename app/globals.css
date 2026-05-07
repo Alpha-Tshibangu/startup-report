@@ -1,10 +1,9 @@
 @import "tailwindcss";
 
 /*
- * Compact layout — applied via JS (CompactScreenObserver) which toggles
- * `.compact-ui` on <html> when viewport is ≥768px wide and ≤1050px tall.
- * Double-class selectors (.compact-ui .compact-*) beat Tailwind @layer utilities
- * without needing !important.
+ * Compact layout — toggled by CompactScreenObserver (adds/removes `compact-ui`
+ * on <html>). Double-class selectors beat Tailwind @layer utilities in the cascade.
+ * visualViewport API in the observer ensures DevTools device simulation is detected.
  */
 
 /* Spacing */
@@ -17,34 +16,28 @@
 .compact-ui .compact-border-pt    { padding-top: 1rem; }
 .compact-ui .compact-attribution  { margin-top: 0.75rem; }
 
-/* Marquee logos — regular (h-9) */
+/* Marquee logos — regular (h-9 → 1.5rem) */
 .compact-ui .compact-logos img {
   height: 1.5rem;
   max-height: 1.5rem;
   width: auto;
 }
-/* Marquee logos — large (h-12): keep same 4:3 ratio as normal mode */
+/* Marquee logos — large (h-12): maintain 4:3 ratio */
 .compact-ui .compact-logos img.compact-logo-lg {
   height: 2rem;
   max-height: 2rem;
 }
 
 /* Left-panel logo grid */
-.compact-ui .compact-logos-grid      { gap-y: 0.75rem; }
+.compact-ui .compact-logos-grid       { gap-y: 0.75rem; }
 .compact-ui .compact-logos-grid > div { height: 2.5rem; }
-.compact-ui .compact-logos-grid img  { max-height: 1.75rem; }
+.compact-ui .compact-logos-grid img   { max-height: 1.75rem; }
 
 /* "Read by" stat */
-.compact-ui .compact-stat {
-  font-size: 1.125rem;
-  line-height: 1.4;
-}
+.compact-ui .compact-stat  { font-size: 1.125rem; line-height: 1.4; }
 
 /* Testimonial quote text */
-.compact-ui .compact-quote {
-  font-size: 0.875rem;
-  line-height: 1.65;
-}
+.compact-ui .compact-quote { font-size: 0.875rem; line-height: 1.65; }
 
 :root {
   --background: #ffffff;

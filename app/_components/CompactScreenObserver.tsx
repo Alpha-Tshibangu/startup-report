@@ -3,25 +3,28 @@
 import { useEffect } from "react";
 
 /**
- * Adds/removes the `compact-ui` class on <html> whenever the viewport
- * crosses the threshold for short desktop/tablet screens.
- * CSS rules scoped to `.compact-ui` have higher cascade priority than
- * Tailwind's @layer utilities, so no !important needed.
+ * Toggles `compact-ui` on <html> based on viewport dimensions.
+ * Uses visualViewport API so Chrome DevTools device simulation is detected,
+ * in addition to the standard window resize event.
  */
 export function CompactScreenObserver() {
   useEffect(() => {
     function update() {
-      // 768–1699px wide (tablet → MacBook 15") AND short viewport
-      const compact =
-        window.innerWidth >= 768 &&
-        window.innerWidth < 1700 &&
-        window.innerHeight <= 1050;
+      const vv = window.visualViewport;
+      const w = vv ? vv.width : window.innerWidth;
+      const h = vv ? vv.height : window.innerHeight;
+      const compact = w >= 768 && w < 1700 && h <= 1050;
       document.documentElement.classList.toggle("compact-ui", compact);
     }
 
     update();
     window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
+    window.visualViewport?.addEventListener("resize", update);
+
+    return () => {
+      window.removeEventListener("resize", update);
+      window.visualViewport?.removeEventListener("resize", update);
+    };
   }, []);
 
   return null;
