@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { CompactScreenObserver } from "./_components/CompactScreenObserver";
 import { ContactFormModal } from "./_components/ContactFormModal";
 import { InsightCardTile, type InsightCardModel } from "./_components/InsightCardTile";
 import { MobileMenu } from "./_components/MobileMenu";
@@ -24,12 +25,12 @@ const featuredCompaniesMarquee = [
 /** Logos for the right column — “Past edition features insights from” */
 const featuredCompanies = [
   { name: "Lorikeet", logo: "/logos/lorikeet.svg", logoClass: "h-9 w-auto max-w-[9.5rem]" },
-  { name: "Hnry", logo: "/logos/hnry.svg", logoClass: "h-12 w-auto max-w-[14rem]" },
-  { name: "Heidi", logo: "/logos/heidi.svg", logoClass: "h-12 w-auto max-w-44" },
+  { name: "Hnry", logo: "/logos/hnry.svg", logoClass: "h-12 w-auto max-w-[14rem] compact-logo-lg" },
+  { name: "Heidi", logo: "/logos/heidi.svg", logoClass: "h-12 w-auto max-w-44 compact-logo-lg" },
   { name: "nexl", logo: "/logos/nexl.svg", logoClass: "h-9 w-auto max-w-32" },
   { name: "AutoGrab", logo: "/logos/autograb.svg", logoClass: "h-9 w-auto max-w-36" },
   { name: "Kismet", logo: "/logos/kismet-wordmark.svg", logoClass: "h-9 w-auto max-w-32" },
-  { name: "Go1", logo: "/logos/go1-wordmark.png", logoClass: "h-12 w-auto max-w-44" },
+  { name: "Go1", logo: "/logos/go1-wordmark.png", logoClass: "h-12 w-auto max-w-44 compact-logo-lg" },
   { name: "Neara", logo: "/logos/neara.svg", logoClass: "h-9 w-auto max-w-32" },
 ];
 
@@ -76,7 +77,7 @@ function LogoMarqueeTrack({
   const duplicated = [...companies, ...companies];
 
   return (
-    <div className="motion-safe:animate-logo-marquee flex w-max shrink-0 flex-nowrap items-center gap-x-10 will-change-transform motion-reduce:animate-none">
+    <div className="motion-safe:animate-logo-marquee flex w-max shrink-0 flex-nowrap items-center gap-x-10 will-change-transform motion-reduce:animate-none compact-logos">
       {duplicated.map((company, idx) => (
         <div
           key={`${instanceId}-${company.name}-${idx}`}
@@ -108,7 +109,7 @@ function CurrentEditionLogoGrid({
 }) {
   return (
     <div
-      className="grid grid-cols-3 justify-items-center gap-x-3 gap-y-5 text-zinc-200/75 sm:gap-x-6 sm:gap-y-6"
+      className="grid grid-cols-3 justify-items-center gap-x-3 gap-y-5 text-zinc-200/75 sm:gap-x-6 sm:gap-y-6 compact-logos-grid"
       aria-label="Featured companies"
     >
       {companies.map((company, idx) => (
@@ -135,6 +136,7 @@ function CurrentEditionLogoGrid({
 export default function Page() {
   return (
     <div className="flex min-h-dvh flex-col bg-zinc-100 text-foreground dark:bg-zinc-950 lg:h-dvh lg:max-h-dvh lg:overflow-hidden">
+      <CompactScreenObserver />
       <MobileMenu />
       <main className="flex min-h-0 flex-1 flex-col lg:overflow-hidden">
         <div className="relative flex min-h-0 flex-1 overflow-x-hidden lg:overflow-hidden">
@@ -242,7 +244,7 @@ export default function Page() {
                 <div className="order-2 lg:order-none">
                   <div className="border-t border-white/15" />
                   <div className="py-8 compact-section">
-                    <p className="max-w-xl font-display text-xl font-normal leading-snug tracking-[-0.03em] text-zinc-100 sm:text-2xl">
+                    <p className="max-w-xl font-display text-xl font-normal leading-snug tracking-[-0.03em] text-zinc-100 sm:text-2xl compact-stat">
                       Read by <span className="tabular-nums">5,250+</span> founders, executives and
                       investors
                     </p>
@@ -252,7 +254,7 @@ export default function Page() {
                 <div className="order-3 grid gap-10 pb-10 lg:order-none lg:grid-cols-2 lg:pb-12 compact-testimonials">
                   <div>
                     <div className="border-t border-white/15 pt-6 compact-border-pt">
-                      <div className="text-base leading-7 text-white/90">
+                      <div className="text-base leading-7 text-white/90 compact-quote">
                          "Curiosity Centre’s recent Playbooks Report was spot on: specific and insight
                         rich. It delivered exactly as per our agreed brief and a brilliant response
                         from our target audience of companies"
@@ -267,7 +269,7 @@ export default function Page() {
                   </div>
                   <div>
                     <div className="border-t border-white/15 pt-6 compact-border-pt">
-                      <div className="text-base leading-7 text-white/90">
+                      <div className="text-base leading-7 text-white/90 compact-quote">
                         “The Playbooks Report stands out from typical media. It captures how
                         companies actually operate. For Neara, it drove high-quality inbound across
                         hiring and investor conversations, and strengthened our positioning with the

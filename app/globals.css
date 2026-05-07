@@ -1,42 +1,49 @@
 @import "tailwindcss";
 
-/* Compact layout: lg screens whose viewport height can't fit full spacing */
-@media (min-width: 1024px) and (max-height: 1050px) {
-  /* Panel containers — reduce vertical padding */
-  .compact-panel {
-    padding-top: 1.5rem !important;
-    padding-bottom: 1.5rem !important;
-  }
-  /* Section dividers inside panels */
-  .compact-section {
-    padding-top: 0.75rem !important;
-    padding-bottom: 0.75rem !important;
-  }
-  /* Nav bottom margin */
-  .compact-nav-mb {
-    margin-bottom: 0.5rem !important;
-  }
-  /* "Playbooks Reports" eyebrow bottom margin */
-  .compact-eyebrow {
-    margin-bottom: 1rem !important;
-  }
-  /* Logo grid top margin */
-  .compact-logo-mt {
-    margin-top: 0.75rem !important;
-  }
-  /* Testimonials grid — tighter gap + bottom padding */
-  .compact-testimonials {
-    gap: 1rem !important;
-    padding-bottom: 1rem !important;
-  }
-  /* Testimonial border+top padding */
-  .compact-border-pt {
-    padding-top: 0.75rem !important;
-  }
-  /* Testimonial attribution top margin */
-  .compact-attribution {
-    margin-top: 0.5rem !important;
-  }
+/*
+ * Compact layout — applied via JS (CompactScreenObserver) which toggles
+ * `.compact-ui` on <html> when viewport is ≥768px wide and ≤1050px tall.
+ * Double-class selectors (.compact-ui .compact-*) beat Tailwind @layer utilities
+ * without needing !important.
+ */
+
+/* Spacing */
+.compact-ui .compact-panel    { padding-top: 1.75rem;  padding-bottom: 1.75rem; }
+.compact-ui .compact-section  { padding-top: 1rem;     padding-bottom: 1rem; }
+.compact-ui .compact-nav-mb   { margin-bottom: 0.75rem; }
+.compact-ui .compact-eyebrow  { margin-bottom: 1.25rem; }
+.compact-ui .compact-logo-mt  { margin-top: 1rem; }
+.compact-ui .compact-testimonials { gap: 1.5rem; padding-bottom: 1.5rem; }
+.compact-ui .compact-border-pt    { padding-top: 1rem; }
+.compact-ui .compact-attribution  { margin-top: 0.75rem; }
+
+/* Marquee logos — regular (h-9) */
+.compact-ui .compact-logos img {
+  height: 1.5rem;
+  max-height: 1.5rem;
+  width: auto;
+}
+/* Marquee logos — large (h-12): keep same 4:3 ratio as normal mode */
+.compact-ui .compact-logos img.compact-logo-lg {
+  height: 2rem;
+  max-height: 2rem;
+}
+
+/* Left-panel logo grid */
+.compact-ui .compact-logos-grid      { gap-y: 0.75rem; }
+.compact-ui .compact-logos-grid > div { height: 2.5rem; }
+.compact-ui .compact-logos-grid img  { max-height: 1.75rem; }
+
+/* "Read by" stat */
+.compact-ui .compact-stat {
+  font-size: 1.125rem;
+  line-height: 1.4;
+}
+
+/* Testimonial quote text */
+.compact-ui .compact-quote {
+  font-size: 0.875rem;
+  line-height: 1.65;
 }
 
 :root {
