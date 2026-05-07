@@ -9,11 +9,11 @@ import { ReportRequestModal } from "./_components/ReportRequestModal";
 export const metadata: Metadata = {
   title: "Playbooks Report by Curiosity Centre",
   description:
-    "A qualitative + quantitative assessment of startup performance in Australia, with practical operator playbooks and benchmarks.",
+    "A qualitative + quantitative assessment of startup performance, with practical operator playbooks and benchmarks.",
   openGraph: {
     title: "Playbooks Report by Curiosity Centre",
     description:
-      "A qualitative + quantitative assessment of startup performance in Australia, with practical operator playbooks and benchmarks.",
+      "A qualitative + quantitative assessment of startup performance, with practical operator playbooks and benchmarks.",
     siteName: "Curiosity Centre",
     type: "website",
     images: [{ url: "/og-image.png", width: 1280, height: 720, alt: "Playbooks Report by Curiosity Centre" }],
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Playbooks Report by Curiosity Centre",
     description:
-      "A qualitative + quantitative assessment of startup performance in Australia, with practical operator playbooks and benchmarks.",
+      "A qualitative + quantitative assessment of startup performance, with practical operator playbooks and benchmarks.",
     images: ["/og-image.png"],
   },
 };
