@@ -206,8 +206,8 @@ export default function Page() {
             {/* Right: Harvey-style stats / proof panel */}
             <div className="relative min-h-svh overflow-hidden bg-[#111719] text-zinc-50 lg:h-full lg:min-h-0 lg:max-h-full">
               <div className="absolute inset-0 opacity-[0.18] bg-[url('/noise.svg')]" />
-              <div className="relative z-10 flex h-full min-h-0 flex-col px-6 pb-10 pt-10 lg:max-h-full lg:justify-between lg:overflow-hidden lg:px-10 lg:pb-12 lg:pt-12">
-                <div className="hidden flex-wrap items-center justify-end gap-x-6 gap-y-3 text-sm text-zinc-200/85 lg:mb-8 lg:flex">
+              <div className="relative z-10 flex h-full min-h-0 flex-col px-6 pb-10 pt-10 lg:max-h-full lg:justify-between lg:overflow-hidden lg:px-10 lg:pb-8 lg:pt-8 xl:pb-12 xl:pt-12">
+                <div className="hidden flex-wrap items-center justify-end gap-x-6 gap-y-3 text-sm text-zinc-200/85 lg:mb-3 lg:flex xl:mb-6">
                   <a href="https://curiositycentre.com/" className="hover:text-white">
                     About Curiosity Centre
                   </a>
@@ -225,7 +225,7 @@ export default function Page() {
 
                 <div className="order-1 mt-10 lg:order-none lg:mt-0">
                   <div className="border-t border-white/15" />
-                  <div className="py-8">
+                  <div className="py-8 lg:py-4 xl:py-6">
                     <div className={eyebrowClass}>Past edition features insights from</div>
                     <div
                       className="relative overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_12%,black_88%,transparent)]"
@@ -241,7 +241,7 @@ export default function Page() {
 
                 <div className="order-2 lg:order-none">
                   <div className="border-t border-white/15" />
-                  <div className="py-8">
+                  <div className="py-8 lg:py-4 xl:py-6">
                     <p className="max-w-xl font-display text-xl font-normal leading-snug tracking-[-0.03em] text-zinc-100 sm:text-2xl">
                       Read by <span className="tabular-nums">5,250+</span> founders, executives and
                       investors
@@ -249,15 +249,15 @@ export default function Page() {
                   </div>
                 </div>
 
-                <div className="order-3 grid gap-10 pb-10 lg:order-none lg:grid-cols-2 lg:pb-12">
+                <div className="order-3 grid gap-10 pb-10 lg:order-none lg:grid-cols-2 lg:gap-6 lg:pb-0 xl:gap-10">
                   <div>
-                    <div className="border-t border-white/15 pt-6">
+                    <div className="border-t border-white/15 pt-6 lg:pt-4 xl:pt-6">
                       <div className="text-base leading-7 text-white/90">
                          "Curiosity Centre’s recent Playbooks Report was spot on: specific and insight
                         rich. It delivered exactly as per our agreed brief and a brilliant response
                         from our target audience of companies"
                       </div>
-                      <div className="mt-6 min-w-0">
+                      <div className="mt-6 min-w-0 lg:mt-3 xl:mt-6">
                         <div className="text-sm text-zinc-200/85">Hari Srinivasan</div>
                         <div className="mt-0.5 text-xs text-zinc-200/60">
                           Head of Sales, Google Cloud
@@ -266,14 +266,14 @@ export default function Page() {
                     </div>
                   </div>
                   <div>
-                    <div className="border-t border-white/15 pt-6">
+                    <div className="border-t border-white/15 pt-6 lg:pt-4 xl:pt-6">
                       <div className="text-base leading-7 text-white/90">
                         “The Playbooks Report stands out from typical media. It captures how
                         companies actually operate. For Neara, it drove high-quality inbound across
                         hiring and investor conversations, and strengthened our positioning with the
                         right audience.”
                       </div>
-                      <div className="mt-6 min-w-0">
+                      <div className="mt-6 min-w-0 lg:mt-3 xl:mt-6">
                         <div className="text-sm text-zinc-200/85">Jack Curtis</div>
                         <div className="mt-0.5 text-xs text-zinc-200/60">
                           Chief Commercial Officer, Neara
@@ -285,7 +285,7 @@ export default function Page() {
 
                 <div className="order-4 mt-10 lg:order-none lg:mt-0">
                   <div className="border-t border-white/15" />
-                  <div className="py-8">
+                  <div className="py-8 lg:py-4 xl:py-6">
                     <div className="grid gap-6 sm:grid-cols-2 sm:items-start">
                       {insightCards.map((card) => (
                         <InsightCardTile key={card.title} card={card} />
