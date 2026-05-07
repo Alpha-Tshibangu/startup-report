@@ -12,12 +12,12 @@ const MODAL_COPY: Record<
   { eyebrow: string; title: string; description: string }
 > = {
   past: {
-    eyebrow: "Startup Playbooks Report",
+    eyebrow: "Playbooks Report",
     title: "Access past editions",
     description: DESCRIPTION,
   },
   latest: {
-    eyebrow: "Startup Playbooks Report",
+    eyebrow: "Playbooks Report",
     title: "Access Latest Edition",
     description: DESCRIPTION,
   },
