@@ -1,5 +1,44 @@
 @import "tailwindcss";
 
+/* Compact layout: lg screens whose viewport height can't fit full spacing */
+@media (min-width: 1024px) and (max-height: 1050px) {
+  /* Panel containers — reduce vertical padding */
+  .compact-panel {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+  /* Section dividers inside panels */
+  .compact-section {
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+  }
+  /* Nav bottom margin */
+  .compact-nav-mb {
+    margin-bottom: 0.5rem !important;
+  }
+  /* "Playbooks Reports" eyebrow bottom margin */
+  .compact-eyebrow {
+    margin-bottom: 1rem !important;
+  }
+  /* Logo grid top margin */
+  .compact-logo-mt {
+    margin-top: 0.75rem !important;
+  }
+  /* Testimonials grid — tighter gap + bottom padding */
+  .compact-testimonials {
+    gap: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
+  /* Testimonial border+top padding */
+  .compact-border-pt {
+    padding-top: 0.75rem !important;
+  }
+  /* Testimonial attribution top margin */
+  .compact-attribution {
+    margin-top: 0.5rem !important;
+  }
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
